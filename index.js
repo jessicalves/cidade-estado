@@ -3,10 +3,13 @@ import { promises as fs } from 'fs';
 init();
 
 async function init() {
-  await criarArquivoJson();
-  await cincoEstadosComMaisCidades();
-  await cincoEstadosComMenosCidades();
-  await maiorNomeCadaEstado();
+  //await criarArquivoJson();
+  //await cincoEstadosComMaisCidades();
+  //await cincoEstadosComMenosCidades();
+  //await maiorNomeCadaEstado();
+  //await menorNomeCadaEstado();
+  await maiorNomeEntreEstados();
+  await menorNomeEntreEstados();
 }
 
 async function criarArquivoJson() {
@@ -143,4 +146,120 @@ async function maiorNomeCadaEstado() {
   );
 
   console.log(resultado);
+}
+
+async function menorNomeCadaEstado() {
+  const dataEstados = JSON.parse(await fs.readFile('./Estados.json'));
+
+  let arrayCidades = [];
+
+  for (let i = 0; i < dataEstados.length; i++) {
+    let arrayDaCidade = [];
+    const cidades = JSON.parse(
+      await fs.readFile(`./CidadeEstado/${dataEstados[i].Sigla}.json`)
+    );
+
+    for (let cidade of cidades) {
+      arrayDaCidade.push({
+        sigla: dataEstados[i].Sigla,
+        nome: cidade.Nome,
+        tamanhoNome: cidade.Nome.length,
+      });
+    }
+    arrayDaCidade.sort((a, b) => {
+      if (a.tamanhoNome < b.tamanhoNome) {
+        return -1;
+      } else if (a.tamanhoNome > b.tamanhoNome) {
+        return 1;
+      } else return 0;
+    });
+
+    arrayCidades.push(arrayDaCidade[0]);
+  }
+
+  let resultado = [];
+
+  arrayCidades.forEach((item) =>
+    resultado.push(item.nome + ' - ' + item.sigla)
+  );
+
+  console.log(resultado);
+}
+
+async function maiorNomeEntreEstados() {
+  const dataEstados = JSON.parse(await fs.readFile('./Estados.json'));
+
+  let arrayCidades = [];
+
+  for (let i = 0; i < dataEstados.length; i++) {
+    let arrayDaCidade = [];
+    const cidades = JSON.parse(
+      await fs.readFile(`./CidadeEstado/${dataEstados[i].Sigla}.json`)
+    );
+
+    for (let cidade of cidades) {
+      arrayDaCidade.push({
+        sigla: dataEstados[i].Sigla,
+        nome: cidade.Nome,
+        tamanhoNome: cidade.Nome.length,
+      });
+    }
+    arrayDaCidade.sort((a, b) => {
+      if (a.tamanhoNome < b.tamanhoNome) {
+        return 1;
+      } else if (a.tamanhoNome > b.tamanhoNome) {
+        return -1;
+      } else return 0;
+    });
+
+    arrayCidades.push(arrayDaCidade[0]);
+  }
+
+  arrayCidades.sort((a, b) => {
+    if (a.tamanhoNome < b.tamanhoNome) {
+      return 1;
+    } else if (a.tamanhoNome > b.tamanhoNome) {
+      return -1;
+    } else return 0;
+  });
+  console.log(arrayCidades[0].nome + ' - ' + arrayCidades[0].sigla);
+}
+
+async function menorNomeEntreEstados() {
+  const dataEstados = JSON.parse(await fs.readFile('./Estados.json'));
+
+  let arrayCidades = [];
+
+  for (let i = 0; i < dataEstados.length; i++) {
+    let arrayDaCidade = [];
+    const cidades = JSON.parse(
+      await fs.readFile(`./CidadeEstado/${dataEstados[i].Sigla}.json`)
+    );
+
+    for (let cidade of cidades) {
+      arrayDaCidade.push({
+        sigla: dataEstados[i].Sigla,
+        nome: cidade.Nome,
+        tamanhoNome: cidade.Nome.length,
+      });
+    }
+    arrayDaCidade.sort((a, b) => {
+      if (a.tamanhoNome < b.tamanhoNome) {
+        return -1;
+      } else if (a.tamanhoNome > b.tamanhoNome) {
+        return 1;
+      } else return 0;
+    });
+
+    arrayCidades.push(arrayDaCidade[0]);
+  }
+
+  arrayCidades.sort((a, b) => {
+    if (a.tamanhoNome < b.tamanhoNome) {
+      return -1;
+    } else if (a.tamanhoNome > b.tamanhoNome) {
+      return 1;
+    } else return 0;
+  });
+  console.log(arrayCidades[0].nome + ' - ' + arrayCidades[0].sigla);
 }
