@@ -3,11 +3,11 @@ import { promises as fs } from 'fs';
 init();
 
 async function init() {
-  //await criarArquivoJson();
-  //await cincoEstadosComMaisCidades();
-  //await cincoEstadosComMenosCidades();
-  //await maiorNomeCadaEstado();
-  //await menorNomeCadaEstado();
+  await criarArquivoJson();
+  await cincoEstadosComMaisCidades();
+  await cincoEstadosComMenosCidades();
+  await maiorNomeCadaEstado();
+  await menorNomeCadaEstado();
   await maiorNomeEntreEstados();
   await menorNomeEntreEstados();
 }
@@ -53,6 +53,7 @@ async function contadorCidades(uf) {
 async function cincoEstadosComMaisCidades() {
   const dataEstados = JSON.parse(await fs.readFile('./Estados.json'));
   let arrayCidades = [];
+  let soma = 0;
 
   for (let i = 0; i < dataEstados.length; i++) {
     const data = JSON.parse(
