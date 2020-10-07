@@ -4,6 +4,7 @@ init();
 
 async function init() {
   await criarArquivoJson();
+  //await contadorCidades();
   await cincoEstadosComMaisCidades();
   await cincoEstadosComMenosCidades();
   await maiorNomeCadaEstado();
